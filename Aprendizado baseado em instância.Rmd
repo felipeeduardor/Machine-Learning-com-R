@@ -1,0 +1,71 @@
+---
+title: "Aprendizado baseado em instância"
+output: html_document
+date: "2024-08-22"
+---
+
+```{r}
+#install.packages("class")
+library(class)
+```
+Iris
+```{r}
+head(iris)
+summary(iris)
+```
+
+Dividimos em treino e classificação
+
+```{r}
+amostra = sample(2,150,replace = T, prob = c(0.7,0.3))
+iristreino = iris[amostra==1,]
+iristeste = iris[amostra==2,]
+```
+
+
+Visualizamos as dimensões
+
+```{r}
+dim(iristreino)
+dim(iristeste)
+```
+
+Fazemos a classificação sem criar modelo
+Dados de treino(instâncias), dados de teste,classe real, número de vizinhos considerados
+
+```{r}
+previsao = knn(iristreino[,1:4],iristeste[,1:4],iristreino[,5],k=3)
+```
+
+
+Matriz de confusâo 
+```{r}
+tabela = table(iristeste[,5],previsao)
+tabela
+```
+
+
+Avaliamos a performance
+
+```{r}
+(tabela[1] + tabela[5] + tabela[9]) /sum(tabela)
+```
+
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
