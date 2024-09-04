@@ -1,0 +1,39 @@
+---
+title: "Fuzzy C-Means"
+output: html_document
+date: "2024-09-04"
+---
+
+```{r}
+install.packages("factoextra")
+install.packages("e1071")
+install.packages("RcolorBrewer")
+library(factoextra)
+library(e1071)
+library(RColorBrewer)
+```
+
+Gera o Cluster fuzzy
+```{r}
+cluster = cmeans(iris[,1:4], centers = 3)
+cluster$membership
+```
+
+  Visualizar membeship com heatmap
+  
+```{r}
+  heatmap(cluster$membership, Colv = NA, Rowv = NA, col= brewer.pal(n=9, name= "YlOrRd"))
+```
+  
+  Matriz de confusão
+```{r}
+table(iris$Species, cluster$cluster)
+```
+
+Visualização com factoextra
+```{r}
+g = fviz_cluster(list(data = iris[,1:4], cluster=cluster$cluster), ellipse.type = "norm", ggtheme = theme_bw(),
+                 main = "cluster")
+plot(g)
+```
+
