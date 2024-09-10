@@ -1,0 +1,40 @@
+---
+title: "Associadores com Apriori"
+
+---
+
+```{r}
+install.packages("arules")
+install.packages("arulesViz")
+library(arules)
+library(arulesViz)
+```
+
+
+Importação as transaçoes
+
+```{r}
+transacoes <- read.transactions("transacoes.txt",format="basket",sep=",")
+transacoes
+inspect(transacoes)
+image(transacoes)
+```
+
+minerar
+```{r}
+regras = apriori(transacoes,parameter = list(supp=0.5, conf=0.5,minlen=2))
+regras
+summary(regras)
+inspect(regras)
+```
+visualização
+```{r}
+plot(regras,method="graph", control=list(type="items"))
+plot(regras,method="matrix", control=list(type="items"))
+plot(regras,method="matrix3D")
+```
+
+Salvar as regras em disco
+```{r}
+write.csv(DATAFRAME(regras),"regras.csv")
+```
